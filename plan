@@ -1,0 +1,50 @@
+Notes - 
+
+GET /notes
+GET /notes/:noteId
+POST /notes
+    {
+        "userId": __,
+        "badge": __,
+        "summary": __,
+        "notes": __,
+        "category": __,
+        "name": __,
+        "lastModified": __
+    }
+PATCH /notes
+DELETE /notes/:noteId
+
+Labels - 
+
+GET /labels
+GET /labels/:labelId
+POST /labels
+    {
+        "userId": __,
+        "title": __,
+        "color": __
+    }
+PATCH /labels
+DELETE /labels/:labelId
+
+Plan of action - 
+
+1.) complete the notes api
+2.) make helper functions
+3.) refactor the existing code to use the new apis and helper functions
+4.) adding search functionality
+5.) first time user to show tutorial
+6.) add badges system - api, then userId
+7.) adding themes - start with light mode and dark mode and gradually add more
+8.) reports view where the person can see his efficiency - maybe graph view
+9.) daily tasks tab - user can move his task to the daily task list and focus solely on that for the day and try to complete them
+10.) slowly try to convert to use socketio
+
+14th Dec - 1
+15th Dec - 2
+16th Dec to 19th Dec - 3 and 4
+20th Dec and 21st Dec - 5
+22nd Dec to 24th Dec - Set up devops part and host the application
+25th Dec to 27th Dec - 6 and research regarding 7
+28th Dec to 31st Dec - 7
