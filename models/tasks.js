@@ -12,9 +12,8 @@ class Tasks {
         this.lastModified = new Date();
     }
 
-    static getAllTasks() {
-        // fetch userId from db 
-        const userId = '';
+    static getAllTasks(userId) { 
+        const userId = userId;
         return db
         .collection('Tasks')
         .find({userId: userId})
@@ -22,12 +21,11 @@ class Tasks {
         .then(data => data)
     }
 
-    static getTaskById(taskId) {
-        // fetch userId from db
-        const userId = '';
+    static getTaskById(taskId, userId) {
+        const userId = userId;
         return db
         .collection('Tasks')
-        .find({id: new mongodb.ObjectId(taskId), userId: userId})
+        .find({_id: new mongodb.ObjectId(taskId), userId: userId})
         .toArray()
         .then(data => {
             if(data.length == 0)
@@ -43,9 +41,8 @@ class Tasks {
         .then(data => data)
     }
 
-    static deleteTask(taksId) {
-        // fetch userId from db
-        const userId = '';
+    static deleteTask(taksId, userId) {
+        const userId = userId;
         return db
         .collection('Tasks')
         .remove({_id: new mongodb.ObjectId(taskId), userId: userId})

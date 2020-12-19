@@ -48,3 +48,18 @@ Plan of action -
 22nd Dec to 24th Dec - Set up devops part and host the application
 25th Dec to 27th Dec - 6 and research regarding 7
 28th Dec to 31st Dec - 7
+
+Let user sign in with google account
+.then -> send an api request to login api with the google id
+.then -> create a jwt with the google id and send back to the user,
+.then -> save the jwt in the localStorage
+
+
+
+POST /auth/login        - Done
+auth middleware         - Done
+GET /tasks              - Done
+GET /tasks/:taskId      - Done
+POST /tasks             - Done
+PATCH /tasks/:taskId    - Done
+DELETE /tasks/:taskId   - Done

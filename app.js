@@ -2,12 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const tasksRouter = require('./routes/tasks');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
 app.use(bodyParser.json());
 
 app.use('/tasks', notesRouter);
+
+app.use('/auth', authRouter);
 
 app.use((error, req, res, next) => {
     const status = error.status || 500;
@@ -17,7 +20,7 @@ app.use((error, req, res, next) => {
     .json({
         'message': message
     });
-})
+});
 
 mongoConnect(() => {
     app.listen(process.env.PORT || 3000, (err) => {
@@ -28,4 +31,4 @@ mongoConnect(() => {
             console.log(`Server listening on port ${process.env.PORT || 3000}`);
         }
     });
-})
+});

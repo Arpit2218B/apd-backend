@@ -1,7 +1,8 @@
 const Tasks = require('../models/tasks.js');
 
 exports.getAllTasks = (req, res, next) => {
-    Tasks.getAllTasks()
+    const userId = req.userId;
+    Tasks.getAllTasks(userId)
     .then(res => {
         res
         .status(200)
@@ -15,7 +16,8 @@ exports.getAllTasks = (req, res, next) => {
 }
 
 exports.getTask = (req, res, next) => {
-    Tasks.getTaskById(req.params.taskId)
+    const userId = req.userId;
+    Tasks.getTaskById(req.params.taskId, userId)
     .then(data => {
         res
         .status(200)
@@ -29,8 +31,8 @@ exports.getTask = (req, res, next) => {
 }
 
 exports.createTask = (req, res, next) => {
+    const userId = req.userId;
     const { title, summary, notes, badgeId } = req.body;
-    const userId = ''       // get from db
     const task = new Tasks(userId, title, summary, notes, badgeId);
     task.createTask()
     .then(data => {
@@ -40,6 +42,11 @@ exports.createTask = (req, res, next) => {
             'message': 'Task created successfully'
         })
     })
+    .catch(err => {
+        const error = new Error(err);
+        error.status = 401;
+        next(error);
+    });
 }
 
 exports.modifyTask = (req, res, next) => {
@@ -59,7 +66,8 @@ exports.modifyTask = (req, res, next) => {
 }
 
 exports.deleteTask = (req, res, next) => {
-    Tasks.deleteTask(req.params.taskId)
+    const userId = req.userId;
+    Tasks.deleteTask(req.params.taskId, userId)
     .then(data => {
         res
         .status(200)
