@@ -7,7 +7,7 @@ router.get('/:taskId', tasksController.getTask);
 
 router.post('/', tasksController.createTask);
 
-router.patch('/:taskId'. tasksController.modifyTask);
+router.patch('/:taskId', tasksController.modifyTask);
 
 router.delete('/:taskId', tasksController.deleteTask);
 

@@ -1,4 +1,4 @@
-const db = require('../utils/database').getDB();
+const getDb = require('../utils/database').getDB;
 const mongodb = require('mongodb');
 
 class Tasks {
@@ -12,8 +12,8 @@ class Tasks {
         this.lastModified = new Date();
     }
 
-    static getAllTasks(userId) { 
-        const userId = userId;
+    static getAllTasks(userId) {
+        const db = getDb();
         return db
         .collection('Tasks')
         .find({userId: userId})
@@ -22,7 +22,7 @@ class Tasks {
     }
 
     static getTaskById(taskId, userId) {
-        const userId = userId;
+        const db = getDb();
         return db
         .collection('Tasks')
         .find({_id: new mongodb.ObjectId(taskId), userId: userId})
@@ -35,30 +35,32 @@ class Tasks {
     }
 
     createTask() {
+        const db = getDb();
         return db
         .collection('Tasks')
         .insertOne(this)
         .then(data => data)
     }
 
-    static deleteTask(taksId, userId) {
-        const userId = userId;
+    static deleteTask(taskId, userId) {
+        const db = getDb();
         return db
         .collection('Tasks')
-        .remove({_id: new mongodb.ObjectId(taskId), userId: userId})
+        .deleteOne({_id: new mongodb.ObjectId(taskId), userId: userId})
         .then(data => {
-            if(data.matchedCount == 0)
+            if(data.deletedCount == 0)
                 return Promise.reject('Cannot find the resource to be deleted');
             return data;
         });
     }
 
-    static modfyTask(data, taskId) {
+    static modifyTask(data, taskId) {
+        const db = getDb();
         data.lastModified = new Date();
         delete data.userId;
         return db
         .collection('Tasks')
-        .update({_id: new mongodb.ObjectId(taskId)}, {$set: data})
+        .updateOne({_id: new mongodb.ObjectId(taskId)}, {$set: data})
         .then(result => {
             if(result.matchedCount == 0)
                 return Promise.reject('Could not find given resource to update');

@@ -1,14 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const mongoConnect = require('./utils/database').dbConnect;
 const tasksRouter = require('./routes/tasks');
 const authRouter = require('./routes/auth');
+const authMiddleWare = require('./middlewares/auth');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/tasks', notesRouter);
+app.use('/tasks', authMiddleWare, tasksRouter);
 
 app.use('/auth', authRouter);
 
@@ -21,6 +23,7 @@ app.use((error, req, res, next) => {
         'message': message
     });
 });
+
 
 mongoConnect(() => {
     app.listen(process.env.PORT || 3000, (err) => {

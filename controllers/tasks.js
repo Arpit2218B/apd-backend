@@ -3,10 +3,10 @@ const Tasks = require('../models/tasks.js');
 exports.getAllTasks = (req, res, next) => {
     const userId = req.userId;
     Tasks.getAllTasks(userId)
-    .then(res => {
+    .then(data => {
         res
         .status(200)
-        .json(res)
+        .json(data)
     })
     .catch(err => {
         const error = new Error(err);
