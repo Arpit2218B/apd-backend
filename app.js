@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoConnect = require('./utils/database').dbConnect;
 const tasksRouter = require('./routes/tasks');
 const authRouter = require('./routes/auth');
+const tagsRouter = require('./routes/tags');
 const authMiddleWare = require('./middlewares/auth');
 
 const app = express();
@@ -11,6 +12,8 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/tasks', authMiddleWare, tasksRouter);
+
+app.use('/tags', authMiddleWare, tagsRouter);
 
 app.use('/auth', authRouter);
 

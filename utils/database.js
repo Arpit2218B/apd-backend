@@ -1,4 +1,4 @@
-const URI = 'mongodb+srv://root:root@cluster0.fahmz.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const URI = 'mongodb+srv://root:root@cluster0.fahmz.mongodb.net/apd?retryWrites=true&w=majority';
 
 const mongodb = require('mongodb');
 
