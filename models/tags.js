@@ -29,7 +29,7 @@ class Tags {
         const db = getDb();
         return db
         .collection('Tasks')
-        .find({badgeId: tagId, userId: userId})
+        .find({tagId: tagId, userId: userId, isCompleted: false})
         .toArray()
         .then(data => {
             if(data.length > 0)

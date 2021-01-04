@@ -32,8 +32,8 @@ exports.getTask = (req, res, next) => {
 
 exports.createTask = (req, res, next) => {
     const userId = req.userId;
-    const { title, summary, notes, badgeId } = req.body;
-    const task = new Tasks(userId, title, summary, notes, badgeId);
+    const { title, notes, tagId, dueDate } = req.body;
+    const task = new Tasks(userId, title, notes, tagId, dueDate);
     task.createTask()
     .then(data => {
         res

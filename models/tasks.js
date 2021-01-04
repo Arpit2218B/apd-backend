@@ -2,14 +2,18 @@ const getDb = require('../utils/database').getDB;
 const mongodb = require('mongodb');
 
 class Tasks {
-    constructor(userId, title, summary, notes, badgeId) {
+    constructor(userId, title, notes, tagId, dueDate) {
         this.userId = userId;
         this.title = title;
-        this.summary = summary;
         this.notes = notes;
-        this.badgeId = badgeId;
+        this.tagId = tagId;
         this.category = 5;
+        this.createdAt = new Date();
+        this.dueDate = dueDate;
         this.lastModified = new Date();
+        this.completedAt = null;
+        this.isCompleted = false;
+        this.isArchived = false;
     }
 
     static getAllTasks(userId) {
