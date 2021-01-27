@@ -1,10 +1,11 @@
 const getDb = require('../utils/database').getDB;
 
 class User {
-    constructor(userId, userName, password, isGoogleAccount) {
-        this.userId =  userId;
+    constructor(userName, password, email, isGoogleAccount) {
+        this.userId =  new Date().valueOf();
         this.userName = userName;
         this.password = password;
+        this.email = email;
         this.isGoogleAccount = isGoogleAccount;
         this.settings = {
             theme: 'default',
@@ -13,13 +14,48 @@ class User {
         }
     }
 
-    createUser() {
+    loginUser() {
         const db = getDb();
-        const userId = this.userId;
-        const userName = this.userName;
+        const email = this.email;
+        const password = this.password;
+        const isGoogleAccount = this.isGoogleAccount;
         return db
         .collection('users')
-        .find({userId: userId})
+        .find({'email': email})
+        .toArray()
+        .then(data => {
+            if(data.length > 0 && !data[0].isGoogleAccount && !password) {
+                throw Error('Password not provided');
+            }
+            else if(data.length > 0 && isGoogleAccount) {
+                return data[0];
+            }
+            else if(data.length == 0 && isGoogleAccount) {
+                return this.createUser();
+            }
+            else if(data.length == 0 && !isGoogleAccount) {
+                throw Error('User account does not exists');
+            }
+            else {
+                return db
+                .collection('users')
+                .find({email: email, password: password})
+                .toArray()
+                .then(data => {
+                    if(data.length == 0)
+                        throw Error('Wrong password')
+                    return data[0];
+                });
+            }
+        });
+    }
+
+    createUser() {
+        const db = getDb();
+        const email = this.email;
+        return db
+        .collection('users')
+        .find({'email': email})
         .toArray()
         .then(data => {
             if(data.length == 0)
@@ -27,11 +63,11 @@ class User {
                 return db
                 .collection('users')
                 .insertOne(this)
-                then(data => {
-                    return data;
+                .then(data => {
+                    return data.ops[0];
                 });
             }
-            return 'User exists';
+            throw Error('User exists');
         });
     }
 
